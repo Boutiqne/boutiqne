@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "744821026615",
+    "project_id": "boutiqne-b4260",
+    "storage_bucket": "boutiqne-b4260.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744821026615:android:82c7018483e472ac5b74b2",
+        "android_client_info": {
+          "package_name": "com.example.boutiqne"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744821026615-ndsbma443c8on00g3eeilntetfhiqh1r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.boutiqne",
+            "certificate_hash": "cfda98cb7cc147337e8591a911600f4da6baa46f"
+          }
+        },
+        {
+          "client_id": "744821026615-0kh2v2a0e8orkjegm5vq4qqbedp4s2vk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9s65tHTack5CSB-9YV536us_PHZweXt4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744821026615-0kh2v2a0e8orkjegm5vq4qqbedp4s2vk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
