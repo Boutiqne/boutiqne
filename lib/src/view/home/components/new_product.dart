@@ -21,12 +21,12 @@ class PopularProducts extends StatelessWidget {
             press: () {
               Get.to(() => ViewAllProduct(title: 'Nouveaux produits'));
             }),
-        SizedBox(height: getProportionateScreenWidth(20)),
+        const SizedBox(height: (20)),
         GridView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+              crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
               childAspectRatio: 0.7,
             ),
             itemCount: controller.products.length,

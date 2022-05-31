@@ -3,7 +3,15 @@ import 'package:boutiqnet/src/model/address.dart';
 class UserModel {
   String? userId, email, name, pic, phone;
   Address? address;
-  UserModel({this.userId, this.email, this.name, this.pic, this.address,this.phone});
+  double? prix;
+  UserModel(
+      {this.userId,
+      this.prix,
+      this.email,
+      this.name,
+      this.pic,
+      this.address,
+      this.phone});
 
   UserModel.fromJson(Map<dynamic, dynamic> map) {
     if (map == null) {
@@ -14,8 +22,8 @@ class UserModel {
     name = map['name'];
     pic = map['pic'];
     phone = map['phone'];
+    prix = map['prix'];
     address = Address.fromJson(map['address']);
-
   }
 
   toJson() {
@@ -26,6 +34,7 @@ class UserModel {
       'pic': pic,
       'phone': phone,
       'address': address?.toJson(),
+      'prix': prix
     };
   }
 }

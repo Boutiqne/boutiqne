@@ -37,10 +37,20 @@ class HomeService {
   }
 
   // get products by id Category
-  getProductsbyCatagory(int id) async {
+  Future<List<QueryDocumentSnapshot<Object?>>> getProductsbyCatagory(int id) async {
     var products = await _productCollectionRef
         .where('categorie', arrayContains: id)
         .limit(20)
+        .get();
+    return products.docs;
+  }
+
+  // search product
+  searchProduct(String search) async {
+    var products = await _productCollectionRef
+        .orderBy('title')
+        .startAt([search])
+        .limit(10)
         .get();
     return products.docs;
   }

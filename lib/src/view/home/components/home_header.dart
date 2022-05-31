@@ -14,16 +14,16 @@ class HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: [
+      children: const [
         // Image.asset(
         //   'assets/images/logo.png',
         //   height: getProportionateScreenWidth(20),
         // ),
         // const SizedBox(width: 10),
         Text(
-          'Boutiqne',
+          'Boutiqnet',
           style: TextStyle(
-            fontSize: getProportionateScreenWidth(25),
+            fontSize: (25),
             fontWeight: FontWeight.w900,
             color: primaryColor,
           ),

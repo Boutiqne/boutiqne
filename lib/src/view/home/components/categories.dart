@@ -17,12 +17,12 @@ class Categories extends StatelessWidget {
         SectionTitle(
           title: "Top Categories".tr,
           press: () {
-            Get.to(() => ViewAllCategory(title: "Top Categories"));
+            Get.to(() => const ViewAllCategory(title: "Top Categories"));
           },
         ),
-        SizedBox(height: getProportionateScreenWidth(20)),
+        const SizedBox(height: (15)),
         SizedBox(
-          height: getProportionateScreenHeight(80),
+          height: (80),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: categories.length,
@@ -53,32 +53,29 @@ class CategoryCard extends StatelessWidget {
           ),
         );
       },
-      child: SizedBox(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(10)),
-              padding: EdgeInsets.all(getProportionateScreenWidth(15)),
-              height: getProportionateScreenWidth(55),
-              width: getProportionateScreenWidth(55),
-              decoration: BoxDecoration(
-                color: kPrimaryLightColor.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: SvgPicture.asset(
-                categoryModel.image ?? '',
-                color: primaryColor,
-              ),
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: (10)),
+            padding: const EdgeInsets.all((15)),
+            width: (55),
+            height: 55,
+            decoration: BoxDecoration(
+              color: kPrimaryLightColor.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(10),
             ),
-            SizedBox(height: 5),
-            Text(categoryModel.name ?? '',
-                style: TextStyle(
-                  fontSize: getProportionateScreenWidth(11),
-                ),
-                textAlign: TextAlign.center)
-          ],
-        ),
+            child: SvgPicture.asset(
+              categoryModel.image ?? '',
+              color: primaryColor,
+            ),
+          ),
+          const SizedBox(height: (5)),
+          Text(categoryModel.name ?? '',
+              style: const TextStyle(
+                fontSize: (11),
+              ),
+              textAlign: TextAlign.center)
+        ],
       ),
     );
   }

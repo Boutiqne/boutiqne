@@ -25,6 +25,7 @@ class LikesViewModel extends GetxController {
         _likesProducts.add(Product.fromJson(element.data()));
       });
     }
+    lodding = false;
     update();
   }
 

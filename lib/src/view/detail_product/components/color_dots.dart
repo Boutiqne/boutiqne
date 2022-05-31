@@ -1,37 +1,46 @@
 import 'package:boutiqnet/src/constance.dart';
 import 'package:boutiqnet/src/helper/size_config.dart';
 import 'package:boutiqnet/src/helper/string_tocolor.dart';
-import 'package:boutiqnet/src/model/Product.dart';
-import 'package:boutiqnet/src/view/widgets/custom_text.dart';
-import 'package:boutiqnet/src/view/widgets/rounded_icon_btn.dart';
+
 import 'package:flutter/material.dart';
 
-class ColorDots extends StatelessWidget {
-  const ColorDots({
-    Key? key,
-    required this.product,
-  }) : super(key: key);
+class ColorDots extends StatefulWidget {
+  const ColorDots({Key? key, required this.colors, required this.onChangeColor})
+      : super(key: key);
 
-  final Product product;
+  final List<dynamic> colors;
+  final Function(String) onChangeColor;
 
   @override
+  State<ColorDots> createState() => _ColorDotsState();
+}
+
+class _ColorDotsState extends State<ColorDots> {
+  // Now this is fixed and only for demo
+  int selectedColor = 0;
+  @override
   Widget build(BuildContext context) {
-    // Now this is fixed and only for demo
-    int selectedColor = 3;
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: Row(
         children: [
-          Text(
+          const Text(
             'Colors',
-            style: TextStyle(fontSize: 18),
           ),
-          Spacer(),
-          ...List.generate(product.colors.length, (index) {
-            return ColorDot(
-              color: product.colors[index].toString().toColor(),
-              isSelected: index == selectedColor,
+          const Spacer(),
+          ...List.generate(widget.colors.length, (index) {
+            return InkWell(
+              onTap: () {
+                setState(() {
+                  selectedColor = index;
+                });
+                widget.onChangeColor(widget.colors[index]);
+              },
+              child: ColorDot(
+                color: widget.colors[index].toString().toColor(),
+                isSelected: index == selectedColor,
+              ),
             );
           }),
           // Spacer(),
@@ -64,7 +73,7 @@ class ColorDot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 2),
+      margin: const EdgeInsets.only(right: 2),
       padding: EdgeInsets.all(getProportionateScreenWidth(8)),
       height: getProportionateScreenWidth(35),
       width: getProportionateScreenWidth(35),

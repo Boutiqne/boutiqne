@@ -1,8 +1,11 @@
 import 'package:boutiqnet/src/constance.dart';
 import 'package:boutiqnet/src/helper/size_config.dart';
 import 'package:boutiqnet/src/model/Product.dart';
+import 'package:boutiqnet/src/view/detail_product/details_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:image_network/image_network.dart';
 
 class ProductImages extends StatefulWidget {
   const ProductImages({
@@ -26,14 +29,24 @@ class _ProductImagesState extends State<ProductImages> {
           width: getProportionateScreenWidth(238),
           child: AspectRatio(
             aspectRatio: 1,
-            child: Hero(
-              tag: widget.product.dateCreate,
-              child: CachedNetworkImage(
-                imageUrl: widget.product.images[selectedImage],
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+            child: ImageNetwork(
+              image: widget.product.images[selectedImage],
+              imageCache: CachedNetworkImageProvider(
+                  widget.product.images[selectedImage]),
+              onError: const Icon(
+                Icons.error,
+                color: Colors.grey,
               ),
+              width: 180,
+              height: 180,
+              curve: Curves.easeIn,
+              onPointer: true,
+              debugPrint: false,
+              fullScreen: false,
+              fitAndroidIos: BoxFit.contain,
+              fitWeb: BoxFitWeb.contain,
+              borderRadius: BorderRadius.circular(10),
+              onLoading: const CircularProgressIndicator.adaptive(),
             ),
           ),
         ),
@@ -58,8 +71,8 @@ class _ProductImagesState extends State<ProductImages> {
       },
       child: AnimatedContainer(
         duration: defaultDuration,
-        margin: EdgeInsets.only(right: 15),
-        padding: EdgeInsets.all(8),
+        margin: const EdgeInsets.only(right: 15),
+        padding: const EdgeInsets.all(8),
         height: getProportionateScreenWidth(48),
         width: getProportionateScreenWidth(48),
         decoration: BoxDecoration(
@@ -68,12 +81,35 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: primaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child: CachedNetworkImage(
-          imageUrl: widget.product.images[index],
-          progressIndicatorBuilder: (context, url, downloadProgress) =>
-              CircularProgressIndicator(value: downloadProgress.progress),
-          errorWidget: (context, url, error) => Icon(Icons.error),
+        child: ImageNetwork(
+          image: widget.product.images[index],
+          imageCache: CachedNetworkImageProvider(widget.product.images[index]),
+          onError: const Icon(
+            Icons.error,
+            color: Colors.grey,
+          ),
+          width: 50,
+          height: 50,
+          curve: Curves.easeIn,
+          onPointer: true,
+          debugPrint: false,
+          fullScreen: false,
+          fitAndroidIos: BoxFit.contain,
+          fitWeb: BoxFitWeb.contain,
+          borderRadius: BorderRadius.circular(10),
+          onLoading: const CircularProgressIndicator.adaptive(),
+          onTap: () {
+            setState(() {
+              selectedImage = index;
+            });
+          },
         ),
+        // CachedNetworkImage(
+        //   imageUrl: widget.product.images[index],
+        //   progressIndicatorBuilder: (context, url, downloadProgress) =>
+        //       CircularProgressIndicator(value: downloadProgress.progress),
+        //   errorWidget: (context, url, error) => Icon(Icons.error),
+        // ),
       ),
     );
   }

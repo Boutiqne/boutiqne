@@ -38,12 +38,12 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(),
+          const SizedBox(),
           Image.asset(
             'assets/images/logo.png',
             height: 80,
           ),
-          SpinKitRing(
+          const SpinKitRing(
             color: primaryColor,
             lineWidth: 2,
             size: 30,

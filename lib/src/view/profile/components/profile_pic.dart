@@ -13,7 +13,7 @@ class ProfilePic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 115,
+        height: 100,
         child: Row(
           children: [
             CircleAvatar(
@@ -25,7 +25,7 @@ class ProfilePic extends StatelessWidget {
                 color: primaryColor,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Column(
@@ -35,19 +35,20 @@ class ProfilePic extends StatelessWidget {
                 Flexible(
                   child: Text(
                     '${FirebaseAuth.instance.currentUser?.displayName}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Text(
                   '${FirebaseAuth.instance.currentUser?.phoneNumber}'
                       .substring(4),
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w300),
                 ),
               ],
             )

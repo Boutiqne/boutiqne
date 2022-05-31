@@ -19,8 +19,8 @@ class SectionTitle extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
-            fontSize: getProportionateScreenWidth(18),
+          style: const TextStyle(
+            fontSize: (18),
             color: Colors.black,
           ),
         ),
@@ -28,7 +28,7 @@ class SectionTitle extends StatelessWidget {
           onTap: press,
           child: Text(
             "voir plus".tr,
-            style: TextStyle(color: Color(0xFFBBBBBB)),
+            style: const TextStyle(color: Color(0xFFBBBBBB), fontSize: 14),
           ),
         ),
       ],

@@ -5,6 +5,7 @@ import 'package:boutiqnet/src/view/control_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
@@ -21,84 +22,99 @@ class AuthViewModel extends GetxController {
   bool isLoading = false;
   bool istoVerificate = false;
   FirebaseAuth auth = FirebaseAuth.instance;
+  ConfirmationResult? confirmationResult;
   @override
   void onInit() {
     super.onInit();
     // FirebaseAuth.instance.signOut();
   }
 
-  @override
-  void onReady() {
-    // TODO: implement onReady
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
-  }
-
   verifyPhone() async {
     isLoading = true;
     update();
-
-    await auth.verifyPhoneNumber(
-        timeout: const Duration(seconds: 120),
-        phoneNumber: '+222$phone',
-        verificationCompleted: (AuthCredential authCredential) async {
-          if (authCredential.token != null) {
-            UserCredential userCredential =
-                await auth.signInWithCredential(authCredential);
-            await userCredential.user?.updateEmail(email ?? '');
-            await userCredential.user?.updatePassword(password ?? '');
-            await userCredential.user?.updateDisplayName(name);
-
-            saveUser(UserModel(
-              userId: userCredential.user?.uid,
-              email: email,
-              name: name,
-              pic: userCredential.user?.toString(),
-            ));
-            Get.off(() => ControlView());
-            isLoading = false;
-            update();
-
-            print('sign complet ');
-            print('sign complet authomatique ');
-            Get.back(result: userCredential.user);
-          }
-        },
-        verificationFailed: (authException) {
-          isLoading = !isLoading;
-          update();
-          Get.rawSnackbar(
-            messageText: Text(
-              'Une erreur est survenue'.tr,
-              style: TextStyle(color: Colors.red),
-            ),
-          );
-        },
-        codeSent: (String id, forceResent) {
-          verId = id;
+    try {
+      if (kIsWeb) {
+        confirmationResult = await _auth.signInWithPhoneNumber('+222$phone');
+        if (confirmationResult?.verificationId != null) {
+          verId = confirmationResult?.verificationId ?? '';
           print('code sent');
-          isLoading = !isLoading;
+          isLoading = false;
           istoVerificate = true;
           update();
-        },
-        codeAutoRetrievalTimeout: (id) {
-          print('codeAutoRetrievalTimeout $id');
-          istoVerificate = false;
+        } else {
           isLoading = false;
+
           update();
-          Get.rawSnackbar(
-            messageText: Text(
-              'Une erreur est survenue'.tr,
-              style: TextStyle(color: Colors.red),
-            ),
-          );
-          verId = id;
-        });
+        }
+      } else {
+        await auth.verifyPhoneNumber(
+            timeout: const Duration(seconds: 120),
+            phoneNumber: '+222$phone',
+            verificationCompleted: (AuthCredential authCredential) async {
+              if (authCredential.token != null) {
+                UserCredential userCredential =
+                    await auth.signInWithCredential(authCredential);
+                await userCredential.user?.updateEmail(email ?? '');
+                await userCredential.user?.updatePassword(password ?? '');
+                await userCredential.user?.updateDisplayName(name);
+
+                saveUser(UserModel(
+                  userId: userCredential.user?.uid,
+                  email: email,
+                  name: name,
+                  pic: userCredential.user?.toString(),
+                ));
+                Get.off(() => ControlView());
+                isLoading = false;
+                update();
+
+                print('sign complet ');
+                print('sign complet authomatique ');
+                Get.back(result: userCredential.user);
+              }
+            },
+            verificationFailed: (authException) {
+              isLoading = !isLoading;
+              update();
+              Get.rawSnackbar(
+                messageText: Text(
+                  'Une erreur est survenue'.tr,
+                  style: TextStyle(color: Colors.red),
+                ),
+              );
+            },
+            codeSent: (String id, forceResent) {
+              verId = id;
+              print('code sent');
+              isLoading = !isLoading;
+              istoVerificate = true;
+              update();
+            },
+            codeAutoRetrievalTimeout: (id) {
+              print('codeAutoRetrievalTimeout $id');
+              istoVerificate = false;
+              isLoading = false;
+              update();
+              Get.rawSnackbar(
+                messageText: Text(
+                  'Une erreur est survenue'.tr,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              );
+              verId = id;
+            });
+      }
+    } catch (e) {
+      isLoading = !isLoading;
+      print(e);
+      update();
+      Get.rawSnackbar(
+        messageText: Text(
+          'Une erreur est survenue'.tr,
+          style: const TextStyle(color: Colors.red),
+        ),
+      );
+    }
   }
 
   /////////
@@ -106,28 +122,52 @@ class AuthViewModel extends GetxController {
     isLoading = true;
     update();
     try {
-      UserCredential? userCredential = await auth.signInWithCredential(
-          PhoneAuthProvider.credential(
-              verificationId: verId, smsCode: otp ?? ''));
-      if (userCredential.user != null) {
-        await userCredential.user?.updateEmail(email ?? '');
-        await userCredential.user?.updatePassword(password ?? '');
-        await userCredential.user?.updateDisplayName(name);
+      if (kIsWeb) {
+        UserCredential? userCredential =
+            await confirmationResult?.confirm(otp ?? '');
+        if (userCredential?.user != null) {
+          await userCredential?.user?.updateEmail(email ?? '');
+          await userCredential?.user?.updatePassword(password ?? '');
+          await userCredential?.user?.updateDisplayName(name);
 
-        saveUser(UserModel(
-          userId: userCredential.user?.uid,
-          email: email,
-          name: name,
-          phone: phone,
-          address: Address(
-              address: GeoPoint(12, 12), city: 'Nouakchott', moukata: 'Ksar'),
-        ));
+          saveUser(UserModel(
+            userId: userCredential?.user?.uid,
+            email: email,
+            name: name,
+            pic: userCredential?.user?.toString(),
+          ));
+          Get.off(() => ControlView());
+          isLoading = false;
+          update();
 
-        Get.off(() => ControlView());
-        isLoading = false;
-        update();
+          print('sign complet ');
 
-        print('sign complet ');
+          Get.back(result: userCredential?.user);
+        }
+      } else {
+        UserCredential? userCredential = await auth.signInWithCredential(
+            PhoneAuthProvider.credential(
+                verificationId: verId, smsCode: otp ?? ''));
+        if (userCredential.user != null) {
+          await userCredential.user?.updateEmail(email ?? '');
+          await userCredential.user?.updatePassword(password ?? '');
+          await userCredential.user?.updateDisplayName(name);
+
+          saveUser(UserModel(
+            userId: userCredential.user?.uid,
+            email: email,
+            name: name,
+            phone: phone,
+            address: Address(
+                address: GeoPoint(12, 12), city: 'Nouakchott', moukata: 'Ksar'),
+          ));
+
+          Get.off(() => ControlView());
+          isLoading = false;
+          update();
+
+          print('sign complet ');
+        }
       }
     } on FirebaseAuthException catch (e) {
       istoVerificate = false;
@@ -164,6 +204,15 @@ class AuthViewModel extends GetxController {
         Get.rawSnackbar(
             messageText: Text(
           'Cette adresse email est invalide.'.tr,
+          style: TextStyle(color: Colors.red),
+        ));
+      } else if (e.code == 'invalid-verification-code') {
+        print('error ${e.code}');
+        isLoading = !isLoading;
+        update();
+        Get.rawSnackbar(
+            messageText: Text(
+          'votre code OTP est incorrect.'.tr,
           style: TextStyle(color: Colors.red),
         ));
       } else if (e.code == 'weak-password') {

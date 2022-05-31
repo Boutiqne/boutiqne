@@ -22,13 +22,26 @@ class ProductDescription extends StatelessWidget {
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                product.dateCreate.toDate().toString().substring(0, 11),
+                style: const TextStyle(color: Colors.grey),
+              )
+            ],
+          ),
+        ),
+        Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: Text(
             product.title ?? '',
             style: Theme.of(context).textTheme.headline6,
           ),
         ),
         SizedBox(
-          height: getProportionateScreenHeight(30),
+          height: getProportionateScreenHeight(20),
         ),
         // Align(
         //   alignment: Alignment.centerRight,

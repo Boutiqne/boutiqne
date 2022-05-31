@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 Map<String, Product> offerFromJson(String str) => Map.from(json.decode(str))
     .map((k, v) => MapEntry<String, Product>(k, Product.fromJson(v)));
 
@@ -11,31 +13,32 @@ String offerToString(List<Product> data) =>
 //     Map.from(data).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())));
 
 class Product {
-  int?  quantity;
-  String? id ,title, description, marque, type, idVendor, nameVandore;
+  int? quantity;
+  String? id, title, description, marque, type, idVendore, nameVandore;
   List<dynamic> images, colors;
 
   List<dynamic> subCategorie, categorie;
-  DateTime dateCreate;
-  double price;
+  Timestamp dateCreate;
+  num price;
   bool isFavourite, isAnnonces;
 
-  Product(
-      {required this.id,
-      required this.images,
-      required this.colors,
-      this.isFavourite = false,
-      this.isAnnonces = false,
-      required this.title,
-      required this.price,
-      required this.description,
-      required this.categorie,
-      required this.marque,
-      required this.subCategorie,
-      required this.dateCreate,
-      required this.quantity,
-      required this.idVendor,
-      required this.nameVandore,});
+  Product({
+    required this.id,
+    required this.images,
+    required this.colors,
+    this.isFavourite = false,
+    this.isAnnonces = false,
+    required this.title,
+    required this.price,
+    required this.description,
+    required this.categorie,
+    required this.marque,
+    required this.subCategorie,
+    required this.dateCreate,
+    required this.quantity,
+    required this.idVendore,
+    required this.nameVandore,
+  });
 
   factory Product.fromJson(Map<Object?, dynamic> json) {
     return Product(
@@ -50,11 +53,10 @@ class Product {
       categorie: json['categorie'] ?? [],
       marque: json['marque'],
       subCategorie: json['subCategorie'] ?? [],
-      dateCreate: DateTime.parse(json['dateCreate']),
+      dateCreate: json['dateCreate'],
       quantity: json['quantity'],
-      idVendor: json['idVendor'],
+      idVendore: json['idVendore'],
       nameVandore: json['nameVandore'],
-
     );
   }
 
@@ -71,9 +73,9 @@ class Product {
         'marque': marque,
         'type': type,
         'subCategorie': subCategorie,
-        'dateCreate': dateCreate.toIso8601String(),
+        'dateCreate': dateCreate,
         'quantity': quantity,
-        'idVendor': idVendor,
+        'idVendor': idVendore,
         'nameVandore': nameVandore,
       };
 }

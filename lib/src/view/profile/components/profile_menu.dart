@@ -15,28 +15,29 @@ class ProfileMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
+    return GestureDetector(
+      onTap: press,
       child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         decoration: BoxDecoration(
             color: primaryColor.withOpacity(0.03),
             borderRadius: BorderRadius.circular(10)),
-        child: ExpansionTile(
-          // controlAffinity: ListTileControlAffinity.leading,
-          textColor: primaryColor,
-          iconColor: primaryColor,
-          collapsedIconColor: primaryColor,
-          title: Row(
-            children: [
-              SvgPicture.asset(
-                icon,
-                color: primaryColor,
-                width: 22,
-              ),
-              SizedBox(width: 20),
-              Text(text),
-            ],
-          ),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              icon,
+              color: primaryColor,
+              width: 22,
+            ),
+            SizedBox(width: 15),
+            Text(text),
+            Spacer(),
+            Icon(
+              Icons.arrow_forward_ios_outlined,
+              color: primaryColor,
+            )
+          ],
         ),
       ),
     );

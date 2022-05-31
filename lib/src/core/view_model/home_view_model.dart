@@ -1,10 +1,7 @@
 import 'package:boutiqnet/src/core/service/home_services.dart';
 import 'package:boutiqnet/src/model/Product.dart';
 import 'package:boutiqnet/src/model/category_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeViewModel extends GetxController {

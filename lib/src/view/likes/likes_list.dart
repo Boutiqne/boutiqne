@@ -25,16 +25,23 @@ class LikesList extends StatelessWidget {
       body: GetBuilder<LikesViewModel>(
           init: LikesViewModel(),
           builder: (controller) {
-            return (controller.likesProducts.isEmpty)
-                ? LoddingLikes()
-                : ListView.builder(
-                    itemCount: controller.likesProducts.length,
-                    itemBuilder: (context, index) {
-                      return LikeProductCard(
-                        product: controller.likesProducts[index],
-                        index: index,
-                      );
-                    },
+            return controller.lodding
+                ? const LoddingLikes()
+                : Center(
+                    child: Container(
+                      constraints: const BoxConstraints(
+                        maxWidth: (400),
+                      ),
+                      child: ListView.builder(
+                        itemCount: controller.likesProducts.length,
+                        itemBuilder: (context, index) {
+                          return LikeProductCard(
+                            product: controller.likesProducts[index],
+                            index: index,
+                          );
+                        },
+                      ),
+                    ),
                   );
           }),
     );

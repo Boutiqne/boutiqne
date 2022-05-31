@@ -13,20 +13,19 @@ class Body extends StatelessWidget {
     return SafeArea(
       child: SingleChildScrollView(
         child: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          padding: const EdgeInsets.symmetric(horizontal: (15)),
           child: Column(
             children: [
               SizedBox(height: getProportionateScreenHeight(20)),
-              HomeHeader(),
-              SizedBox(height: getProportionateScreenWidth(10)),
+              const HomeHeader(),
+              SizedBox(height: getProportionateScreenHeight(20)),
               // DiscountBanner(),
               Categories(),
-              SizedBox(height: getProportionateScreenWidth(30)),
+              SizedBox(height: getProportionateScreenHeight(20)),
               SpecialOffers(),
-              SizedBox(height: getProportionateScreenWidth(30)),
+              SizedBox(height: getProportionateScreenHeight(20)),
               PopularProducts(),
-              SizedBox(height: getProportionateScreenWidth(30)),
+              SizedBox(height: getProportionateScreenHeight(20)),
             ],
           ),
         ),

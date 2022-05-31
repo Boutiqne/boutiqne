@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
           init: HomeViewModel(),
           autoRemove: false,
           builder: (controller) {
-            return (controller.products.isNotEmpty) ? Body() : CustomLodding();
+            return (controller.products.isNotEmpty) ? Body() : const CustomLodding();
           }),
     );
   }

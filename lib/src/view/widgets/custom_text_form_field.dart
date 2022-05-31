@@ -15,6 +15,7 @@ class CustomTextFormField extends StatelessWidget {
   final Function? onSave;
   final Function? validator;
   final TextInputType? keyboardtype;
+  final TextEditingController? controller;
 
   CustomTextFormField(
       {this.text,
@@ -22,6 +23,7 @@ class CustomTextFormField extends StatelessWidget {
       this.onSave,
       this.validator,
       this.keyboardtype,
+      this.controller,
       required this.prefix});
 
   @override
@@ -39,18 +41,20 @@ class CustomTextFormField extends StatelessWidget {
             color: Colors.grey.shade900,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         TextFormField(
+          controller: controller,
           onSaved: onSave as void Function(String?)?,
           validator: validator as String? Function(String?)?,
           keyboardType: keyboardtype,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(0),
-            prefixIconConstraints: BoxConstraints(),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.all(5.0),
+            // contentPadding: const EdgeInsets.all(0),
+
+            prefixIcon: Container(
+              alignment: Alignment.center,
+              width: 30,
               child: SvgPicture.asset(
                 prefix,
                 color: Colors.grey,
@@ -58,13 +62,13 @@ class CustomTextFormField extends StatelessWidget {
               ),
             ),
             hintText: hint,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               color: Colors.black26,
               fontSize: 14,
             ),
             filled: true,
             fillColor: Colors.grey.shade50,
-            hoverColor: primaryColor,
+            hoverColor: primaryColor.withOpacity(0.1),
             focusColor: primaryColor,
             prefixIconColor: primaryColor,
             // filled: true,
